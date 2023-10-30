@@ -36,7 +36,7 @@
 			"response": []
 		},
 		{
-			"name": "create beer Copy",
+			"name": "create beer",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -60,6 +60,68 @@
 						"api",
 						"v1",
 						"beer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update beer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"beerName\": \"Sunshine City RZA\",\n        \"beerStyle\": \"IPA\",\n        \"upc\": \"12356\",\n        \"quantityOnHand\": 144,\n        \"price\": 13.99\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/beer/5445910b-c693-4213-83db-c235581390b2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"5445910b-c693-4213-83db-c235581390b2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update customer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"customerName\": \"Customer First RZA\"\n    },",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer/c8d45ed2-6f0a-4451-9f46-5d81fdba4bd7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"c8d45ed2-6f0a-4451-9f46-5d81fdba4bd7"
 					]
 				}
 			},
