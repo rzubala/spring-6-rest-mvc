@@ -128,6 +128,68 @@
 			"response": []
 		},
 		{
+			"name": "delete beer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/beer/8dc44f6e-b96d-47ef-a7db-40bf0be2dcaf",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"8dc44f6e-b96d-47ef-a7db-40bf0be2dcaf"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete customer",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer/99f2414f-ef4b-4cee-a9d5-b75c7f629c06",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"99f2414f-ef4b-4cee-a9d5-b75c7f629c06"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "list beer",
 			"request": {
 				"method": "GET",
