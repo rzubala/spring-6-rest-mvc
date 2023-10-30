@@ -103,7 +103,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"customerName\": \"Customer First RZA\"\n    },",
+					"raw": "    {\n        \"customerName\": \"Customer First RZA\"\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -122,6 +122,68 @@
 						"v1",
 						"customer",
 						"c8d45ed2-6f0a-4451-9f46-5d81fdba4bd7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch beer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"price\": 0.99\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/beer/cb74ba80-7fa7-4e32-88a3-5a890a298fe0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"beer",
+						"cb74ba80-7fa7-4e32-88a3-5a890a298fe0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "patch customer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"customerName\": \"RZA\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/customer/84e0f813-4c2b-44d1-a53b-12a6308932ce",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"customer",
+						"84e0f813-4c2b-44d1-a53b-12a6308932ce"
 					]
 				}
 			},
