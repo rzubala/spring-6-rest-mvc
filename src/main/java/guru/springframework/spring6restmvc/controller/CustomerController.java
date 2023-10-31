@@ -1,6 +1,6 @@
 package guru.springframework.spring6restmvc.controller;
 
-import guru.springframework.spring6restmvc.model.Customer;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class CustomerController {
     public final static String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<HttpStatus> pathCustomer(@PathVariable("customerId") UUID id, @RequestBody Customer customer) {
+    public ResponseEntity<HttpStatus> pathCustomer(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer) {
         customerService.patchById(id, customer);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
@@ -36,14 +36,14 @@ public class CustomerController {
     }
 
     @PutMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<HttpStatus> updateCustomerById(@PathVariable("customerId") UUID customerId, @RequestBody Customer customer) {
-        Customer updatedCustomer = customerService.updateCustomerById(customerId, customer);
+    public ResponseEntity<HttpStatus> updateCustomerById(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customer) {
+        CustomerDTO updatedCustomer = customerService.updateCustomerById(customerId, customer);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping(CUSTOMER_PATH)
-    public ResponseEntity<HttpStatus> createNewCustomer(@RequestBody Customer customer) {
-        Customer savedCustomer = customerService.createCustomer(customer);
+    public ResponseEntity<HttpStatus> createNewCustomer(@RequestBody CustomerDTO customer) {
+        CustomerDTO savedCustomer = customerService.createCustomer(customer);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", CUSTOMER_PATH + "/" + savedCustomer.getId());
@@ -52,12 +52,12 @@ public class CustomerController {
     }
 
     @GetMapping(CUSTOMER_PATH)
-    public List<Customer> listCustomers() {
+    public List<CustomerDTO> listCustomers() {
         return customerService.listCustomers();
     }
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.GET)
-    public Customer getCustomerById(@PathVariable("customerId") UUID customerId) {
+    public CustomerDTO getCustomerById(@PathVariable("customerId") UUID customerId) {
         return customerService.getCustomerById(customerId).orElseThrow(NotFoundException::new);
     }
 }
