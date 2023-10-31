@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static guru.springframework.spring6restmvc.controller.CustomerController.CUSTOMER_PATH;
+import static guru.springframework.spring6restmvc.controller.CustomerController.CUSTOMER_PATH_ID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -57,7 +59,7 @@ public class CustomerControllerTest {
         Map<String, Object> customerMap = new HashMap<>();
         customerMap.put("customerName", "New name");
 
-        mockMvc.perform(patch("/api/v1/customer/" + customer.getId())
+        mockMvc.perform(patch(CUSTOMER_PATH + "/" + customer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customerMap)));
@@ -71,7 +73,7 @@ public class CustomerControllerTest {
     void testDeleteCustomer() throws Exception {
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMvc.perform(delete("/api/v1/customer/" + customer.getId())
+        mockMvc.perform(delete(CUSTOMER_PATH_ID, customer.getId())
                 .accept(MediaType.APPLICATION_JSON)
         ).andExpect(status().isNoContent());
 
@@ -84,7 +86,7 @@ public class CustomerControllerTest {
     void testUpdateCustomer() throws Exception {
         Customer customer = customerServiceImpl.listCustomers().get(0);
 
-        mockMvc.perform(put("/api/v1/customer/" + customer.getId())
+        mockMvc.perform(put(CUSTOMER_PATH_ID, customer.getId())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customer)))
@@ -101,7 +103,7 @@ public class CustomerControllerTest {
 
         given(customerService.createCustomer(any(Customer.class))).willReturn(customerServiceImpl.listCustomers().get(1));
 
-        mockMvc.perform(post("/api/v1/customer")
+        mockMvc.perform(post(CUSTOMER_PATH)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customer)))
