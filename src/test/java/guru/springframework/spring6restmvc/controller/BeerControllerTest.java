@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static guru.springframework.spring6restmvc.controller.BeerController.BEER_PATH;
@@ -114,10 +115,19 @@ class BeerControllerTest {
     }
 
     @Test
+    void testBeerByIdNotFound() throws Exception {
+
+        given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
+
+        mockMvc.perform(get(BEER_PATH_ID, UUID.randomUUID()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     void getBeerById() throws Exception {
         Beer testBear = bearServiceImpl.listBeers().get(0);
 
-        given(beerService.getBeerById(testBear.getId())).willReturn(testBear);
+        given(beerService.getBeerById(testBear.getId())).willReturn(Optional.of(testBear));
 
         mockMvc.perform(get(BEER_PATH_ID, testBear.getId())
                         .accept(MediaType.APPLICATION_JSON))
