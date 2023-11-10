@@ -1,6 +1,7 @@
 package guru.springframework.spring6restmvc.controller;
 
 import guru.springframework.spring6restmvc.entities.Customer;
+import guru.springframework.spring6restmvc.mappers.CustomerMapper;
 import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +27,9 @@ class CustomerControllerIT {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private CustomerMapper customerMapper;
 
     @BeforeEach
     void setUp() {
@@ -78,5 +82,23 @@ class CustomerControllerIT {
         UUID savedUUID = UUID.fromString(locationUUID[4]);
 
         assertThat(customerRepository.findById(savedUUID)).isNotNull();
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void testUpdateCustomer() {
+        final String customerName = "UPDATED";
+        Customer customer = customerRepository.findAll().get(0);
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+        customerDTO.setCustomerName(customerName);
+
+        ResponseEntity<HttpStatus> responseEntity = customerController.updateCustomerById(customer.getId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getCustomerName()).isEqualTo(customerName);
     }
 }

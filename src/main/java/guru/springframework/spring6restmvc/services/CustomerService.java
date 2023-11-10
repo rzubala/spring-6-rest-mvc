@@ -13,7 +13,7 @@ public interface CustomerService {
 
     CustomerDTO createCustomer(CustomerDTO customer);
 
-    CustomerDTO updateCustomerById(UUID customerId, CustomerDTO customer);
+    void updateCustomerById(UUID customerId, CustomerDTO customer);
 
     void deleteCustomerById(UUID id);
 
