@@ -7,6 +7,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +61,22 @@ class CustomerControllerIT {
     @Test
     void getCustomerByIdNotFound() {
         assertThrows(NotFoundException.class, () -> customerController.getCustomerById(UUID.randomUUID()));
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void testSaveNewCustomer() {
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                .customerName("Test Customer")
+                .build();
+        ResponseEntity<HttpStatus> responseEntity = customerController.createNewCustomer(customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        assertThat(customerRepository.findById(savedUUID)).isNotNull();
     }
 }
