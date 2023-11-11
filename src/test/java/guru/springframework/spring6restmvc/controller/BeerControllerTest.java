@@ -119,6 +119,19 @@ class BeerControllerTest {
     }
 
     @Test
+    void testCreateEmptyBeer() throws Exception {
+        BeerDTO beer = BeerDTO.builder().build();
+
+        given(beerService.createBeer(any(BeerDTO.class))).willReturn(bearServiceImpl.listBeers().get(1));
+
+        mockMvc.perform(post(BEER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beer)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void testBeerByIdNotFound() throws Exception {
 
         given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
