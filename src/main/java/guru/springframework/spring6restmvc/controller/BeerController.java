@@ -1,6 +1,7 @@
 package guru.springframework.spring6restmvc.controller;
 
 import guru.springframework.spring6restmvc.model.BeerDTO;
+import guru.springframework.spring6restmvc.model.CustomerDTO;
 import guru.springframework.spring6restmvc.services.BeerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -29,8 +31,11 @@ public class BeerController {
     private final BeerService beerService;
 
     @PatchMapping(BEER_PATH_ID)
-    public ResponseEntity<HttpStatus> patchById(@PathVariable("beerId") UUID id, @RequestBody BeerDTO beer) {
-        beerService.patchBeerById(id, beer);
+    public ResponseEntity<HttpStatus> patchBeer(@PathVariable("beerId") UUID id, @RequestBody BeerDTO beer) {
+        Optional<BeerDTO> patchedBeer = beerService.patchBeerById(id, beer);
+        if (patchedBeer.isEmpty()) {
+            throw new NotFoundException();
+        }
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
