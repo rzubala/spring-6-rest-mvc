@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -24,14 +25,19 @@ public class CustomerController {
     public final static String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     @PatchMapping(CUSTOMER_PATH_ID)
-    public ResponseEntity<HttpStatus> pathCustomer(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer) {
-        customerService.patchById(id, customer);
+    public ResponseEntity<HttpStatus> patchCustomer(@PathVariable("customerId") UUID id, @RequestBody CustomerDTO customer) {
+        Optional<CustomerDTO> patchedCustomer = customerService.patchById(id, customer);
+        if (patchedCustomer.isEmpty()) {
+            throw new NotFoundException();
+        }
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(CUSTOMER_PATH_ID)
     public ResponseEntity<HttpStatus> deleteCustomerById(@PathVariable("customerId") UUID id) {
-        customerService.deleteCustomerById(id);
+        if (!customerService.deleteCustomerById(id)) {
+            throw new NotFoundException();
+        }
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 

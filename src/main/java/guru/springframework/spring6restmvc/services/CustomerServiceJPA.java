@@ -7,6 +7,7 @@ import guru.springframework.spring6restmvc.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,12 +52,25 @@ public class CustomerServiceJPA implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(UUID id) {
-        customerRepository.deleteById(id);
+    public Boolean deleteCustomerById(UUID id) {
+        if (customerRepository.existsById(id)) {
+            customerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public void patchById(UUID id, CustomerDTO customer) {
-
+    public Optional<CustomerDTO> patchById(UUID id, CustomerDTO customerDTO) {
+        AtomicReference<Optional<CustomerDTO>> atomicReference = new AtomicReference<>();
+        customerRepository.findById(id).ifPresentOrElse(customer -> {
+            if (StringUtils.hasText(customerDTO.getCustomerName())) {
+                customer.setCustomerName(customerDTO.getCustomerName());
+            }
+            Customer savedCustomer = customerRepository.save(customer);
+            atomicReference.set(Optional.of(customerMapper.customerToCustomerDto(savedCustomer)));
+        },
+        () -> atomicReference.set(Optional.empty()));
+        return atomicReference.get();
     }
 }

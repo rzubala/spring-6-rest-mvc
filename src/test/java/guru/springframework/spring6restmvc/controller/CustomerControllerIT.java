@@ -110,11 +110,36 @@ class CustomerControllerIT {
     @Rollback
     @Transactional
     @Test
+    void testPatchCustomer() {
+        final String UPDATED = "UPDATED";
+        Customer customer = customerRepository.findAll().get(0);
+        ResponseEntity<HttpStatus> responseEntity = customerController.patchCustomer(customer.getId(), CustomerDTO.builder().customerName(UPDATED).build());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+
+        Customer patchedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(patchedCustomer.getCustomerName()).isEqualTo(UPDATED);
+    }
+
+    @Test
+    void testPatchCustomerFail() {
+        assertThrows(NotFoundException.class, () -> customerController.patchCustomer(UUID.randomUUID(), CustomerDTO.builder().build()));
+    }
+
+    @Rollback
+    @Transactional
+    @Test
     void testDeleteById() {
         Customer customer = customerRepository.findAll().get(0);
         ResponseEntity<HttpStatus> responseEntity = customerController.deleteCustomerById(customer.getId());
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
 
         assertThat(customerRepository.findById(customer.getId()).isEmpty()).isEqualTo(true);
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void testDeleteByIdFail() {
+        assertThrows(NotFoundException.class, () -> customerController.deleteCustomerById(UUID.randomUUID()));
     }
 }

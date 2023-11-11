@@ -57,6 +57,8 @@ public class CustomerControllerTest {
     void testPatchCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
 
+        given(customerService.patchById(any(UUID.class), any(CustomerDTO.class))).willReturn(Optional.of(CustomerDTO.builder().build()));
+
         Map<String, Object> customerMap = new HashMap<>();
         customerMap.put("customerName", "New name");
 
@@ -73,6 +75,8 @@ public class CustomerControllerTest {
     @Test
     void testDeleteCustomer() throws Exception {
         CustomerDTO customer = customerServiceImpl.listCustomers().get(0);
+
+        given(customerService.deleteCustomerById(any(UUID.class))).willReturn(true);
 
         mockMvc.perform(delete(CUSTOMER_PATH_ID, customer.getId())
                 .accept(MediaType.APPLICATION_JSON)

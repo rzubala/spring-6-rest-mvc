@@ -29,13 +29,15 @@ public class BeerController {
 
     @PatchMapping(BEER_PATH_ID)
     public ResponseEntity<HttpStatus> patchById(@PathVariable("beerId") UUID id, @RequestBody BeerDTO beer) {
-        beerService.patchById(id, beer);
+        beerService.patchBeerById(id, beer);
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity<HttpStatus> deleteBeerById(@PathVariable UUID beerId) {
-        beerService.deleteBeerById(beerId);
+        if (!beerService.deleteById(beerId)) {
+            throw new NotFoundException();
+        }
         return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
     }
 
