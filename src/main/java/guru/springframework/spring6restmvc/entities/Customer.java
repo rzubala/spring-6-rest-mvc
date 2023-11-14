@@ -23,6 +23,8 @@ public class Customer {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
     private String customerName;
+    @Column(length = 255)
+    private String email;
     private LocalDateTime createdDate;
     @Version
     private Integer version;
