@@ -9,9 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-/**
- * Created by jt, Spring Framework Guru.
- */
 @Service
 public class BeerCsvServiceImpl implements BeerCsvService {
     @Override
