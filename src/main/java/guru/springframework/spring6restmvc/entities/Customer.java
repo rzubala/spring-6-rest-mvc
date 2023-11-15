@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -33,4 +34,7 @@ public class Customer {
     private Integer version;
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
+
+    @OneToMany(mappedBy = "customer")
+    private Set<BeerOrder> beerOrders;
 }
