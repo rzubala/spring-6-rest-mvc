@@ -24,11 +24,20 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers() {
-        return beerRepository.findAll()
-                .stream()
+    public List<BeerDTO> listBeers(String beerName) {
+        List<Beer> beerList;
+        if (StringUtils.hasText(beerName)) {
+            beerList = listBeersByName(beerName);
+        } else {
+            beerList = beerRepository.findAll();
+        }
+        return beerList.stream()
                 .map(beerMapper::beerToBeerDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<Beer> listBeersByName(String beerName) {
+        return beerRepository.findAllByBeerNameIsLikeIgnoreCase("%" + beerName + "%");
     }
 
     @Override
